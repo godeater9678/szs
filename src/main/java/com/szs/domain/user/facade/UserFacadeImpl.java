@@ -1,10 +1,12 @@
 package com.szs.domain.user.facade;
 
-import com.szs.domain.user.dto.ScrapResponse;
+import com.szs.domain.user.dto.scrap.ScrapResponse;
 import com.szs.domain.user.dto.UserDto;
+import com.szs.domain.user.dto.scrap.TaxRefund;
 import com.szs.domain.user.entity.SzsUser;
 import com.szs.domain.user.exception.SzsBadRequestException;
 import com.szs.domain.user.helper.JwtUtil;
+import com.szs.domain.user.helper.TaxCalculator;
 import com.szs.domain.user.service.ExternalCallService;
 import com.szs.domain.user.service.UserAllowedService;
 import com.szs.domain.user.service.UserService;
@@ -30,7 +32,7 @@ public class UserFacadeImpl implements UserFacade {
     UserFacadeImpl(UserAllowedService userAllowedService
             , UserService userService
             , AuthenticationManager authenticationManager
-           ,ExternalCallService externalCallService
+           , ExternalCallService externalCallService
 
     ){
         this.userAllowedService = userAllowedService;
@@ -80,6 +82,13 @@ public class UserFacadeImpl implements UserFacade {
     @Override
     public ScrapResponse getScrap(UserDto userDto) throws Exception {
         var ret =  externalCallService.scrap(userDto);
+        return ret;
+    }
+
+    @Override
+    public TaxRefund getRefund(UserDto userDto) throws Exception {
+        var scrap =  externalCallService.scrap(userDto);
+        var ret = TaxCalculator.calculateDecisionTax(scrap);
         return ret;
     }
 

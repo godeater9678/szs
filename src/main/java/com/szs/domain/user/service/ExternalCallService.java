@@ -1,8 +1,7 @@
 package com.szs.domain.user.service;
 
-import com.szs.domain.user.dto.ScrapResponse;
+import com.szs.domain.user.dto.scrap.ScrapResponse;
 import com.szs.domain.user.dto.UserDto;
-import com.szs.domain.user.exception.CircuitBreakException;
 import com.szs.domain.user.exception.SzsException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -10,7 +9,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

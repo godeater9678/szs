@@ -60,4 +60,12 @@ public class SzsController {
 
         return new SzsResponse<>(HttpStatus.ACCEPTED, userFacade.getScrap(userDto).getData(), null);
     }
+
+    @GetMapping("/refund")
+    public SzsResponse<Object> refund(HttpServletRequest request) throws Exception {
+        String tokenString = JwtUtil.getTokenFromHeaders(request);
+        UserDto userDto = userMapper.convertToDto( userFacade.getUserByToken(tokenString) );
+
+        return new SzsResponse<>(HttpStatus.ACCEPTED, userFacade.getRefund(userDto), null);
+    }
 }
