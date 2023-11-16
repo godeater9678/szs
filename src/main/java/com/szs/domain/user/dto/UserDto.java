@@ -24,7 +24,7 @@ public class UserDto {
         private String userId;
 
         @NotBlank
-        @Schema(description = "비밀번호", example = "passwd", required = true)
+        @Schema(description = "비밀번호", example = "password", required = true)
         private String password; // 암호화된 비밀번호를 저장
 
         @NotBlank

@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 @RestController
 @RequestMapping(value="/szs", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SzsController {
@@ -30,5 +33,13 @@ public class SzsController {
         userFacade.saveUser(szsUser);
         //보안상 저장된 정보를 반환하는 것은 옳지 않으나 개발테스를 위해 추가합니다.
         return new SzsResponse<>(HttpStatus.CREATED, userDto);
+    }
+
+    @PostMapping("/login")
+    public SzsResponse<String> signup(@RequestParam @NotBlank String userId
+            , @RequestParam @NotBlank String password) throws Exception {
+        // 입력된 파라미터로 User 엔티티 생성
+        String token = userFacade.login(userId, password);
+        return new SzsResponse<>(HttpStatus.ACCEPTED, token, null);
     }
 }

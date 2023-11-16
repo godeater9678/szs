@@ -14,6 +14,11 @@ public class SzsResponse<T> implements Serializable {
         this.status = httpStatus.value();
         this.data = data;
     }
+    public SzsResponse(HttpStatus httpStatus, T data, String message){
+        this.status = httpStatus.value();
+        this.data = data;
+        this.message = message;
+    }
     public SzsResponse(HttpStatus httpStatus, String message){
         this.status = httpStatus.value();
         this.message = message;

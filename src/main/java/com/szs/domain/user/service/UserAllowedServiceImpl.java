@@ -2,7 +2,7 @@ package com.szs.domain.user.service;
 
 import com.szs.domain.user.entity.SzsUserAllowed;
 import com.szs.domain.user.helper.ShaEnc;
-import com.szs.domain.user.repository.repository.UserAllowedRepository;
+import com.szs.domain.user.repository.UserAllowedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

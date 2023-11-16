@@ -1,4 +1,4 @@
-package com.szs.domain.user.repository.repository;
+package com.szs.domain.user.repository;
 
 import com.szs.domain.user.entity.SzsUserAllowed;
 import org.springframework.data.jpa.repository.JpaRepository;

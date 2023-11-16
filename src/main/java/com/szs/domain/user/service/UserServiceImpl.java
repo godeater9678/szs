@@ -1,14 +1,10 @@
 package com.szs.domain.user.service;
 
-import com.szs.domain.user.repository.repository.UserRepository;
+import com.szs.domain.user.repository.UserRepository;
 import com.szs.domain.user.entity.SzsUser;
 import com.szs.domain.user.helper.ShaEnc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,6 +22,10 @@ public class UserServiceImpl implements UserService {
         szsUser.setRegNo(encryptedRegNo);
 
         userRepository.save(szsUser);
+    }
+
+    public boolean isValidPassword(String userid, String password){
+        return userRepository.findByUserIdAndPassword(userid, ShaEnc.hashPassword(password)) != null;
     }
 
 }
