@@ -1,11 +1,15 @@
 package com.szs.domain.user.helper;
 
+import com.szs.domain.user.exception.SzsBadRequestException;
+import com.szs.domain.user.exception.SzsUnAuthorizedException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.net.http.HttpRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,5 +63,13 @@ public class JwtUtil {
 
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
+    }
+
+    public static String getTokenFromHeaders(HttpServletRequest request) throws Exception{
+        String authorizationHeader = request.getHeader("Authorization");
+        if(authorizationHeader == null){
+            throw new SzsUnAuthorizedException("인증정보가 없습니다.");
+        }
+        return authorizationHeader.replace("Bearer ", "").replace("bearer ", "");
     }
 }

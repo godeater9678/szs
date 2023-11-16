@@ -9,4 +9,5 @@ public class SzsBadRequestException extends SzsException {
         super(message);
         this.status = HttpStatus.BAD_REQUEST;
     }
+
 }

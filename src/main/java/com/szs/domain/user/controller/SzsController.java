@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
@@ -45,10 +46,18 @@ public class SzsController {
     }
 
     @GetMapping("/me")
-    public SzsResponse<UserDto> me(@RequestHeader("Authorization") String authorizationHeader) throws Exception {
-        // "Bearer "를 제거하여 실제 토큰 문자열만 추출
-        String tokenString = authorizationHeader.replace("Bearer ", "").replace("bearer ", "");
+    //public SzsResponse<UserDto> me(@RequestHeader("Authorization") String authorizationHeader) throws Exception {
+    public SzsResponse<UserDto> me(HttpServletRequest request) throws Exception {
+        String tokenString = JwtUtil.getTokenFromHeaders(request);
         UserDto userDto = userMapper.convertToDto( userFacade.getUserByToken(tokenString) );
         return new SzsResponse<>(HttpStatus.ACCEPTED, userDto, null);
+    }
+
+    @PostMapping("/scrap")
+    public SzsResponse<Object> signup(HttpServletRequest request) throws Exception {
+        String tokenString = JwtUtil.getTokenFromHeaders(request);
+        UserDto userDto = userMapper.convertToDto( userFacade.getUserByToken(tokenString) );
+
+        return new SzsResponse<>(HttpStatus.ACCEPTED, userFacade.getScrap(userDto).getData(), null);
     }
 }

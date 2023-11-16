@@ -1,8 +1,11 @@
 package com.szs.domain.user.facade;
 
+import com.szs.domain.user.dto.ScrapResponse;
+import com.szs.domain.user.dto.UserDto;
 import com.szs.domain.user.entity.SzsUser;
 import com.szs.domain.user.exception.SzsBadRequestException;
 import com.szs.domain.user.helper.JwtUtil;
+import com.szs.domain.user.service.ExternalCallService;
 import com.szs.domain.user.service.UserAllowedService;
 import com.szs.domain.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +18,25 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserFacadeImpl implements UserFacade {
 
-    UserAllowedService userAllowedService;
-    UserService userService;
-
-    @Autowired
+    private UserAllowedService userAllowedService;
+    private UserService userService;
     private AuthenticationManager authenticationManager;
+    private ExternalCallService externalCallService;
 
     @Autowired
     private JwtUtil jwtUtil;
 
     @Autowired
-    UserFacadeImpl(UserAllowedService userAllowedService, UserService userService){
+    UserFacadeImpl(UserAllowedService userAllowedService
+            , UserService userService
+            , AuthenticationManager authenticationManager
+           ,ExternalCallService externalCallService
+
+    ){
         this.userAllowedService = userAllowedService;
         this.userService = userService;
+        this.authenticationManager = authenticationManager;
+        this.externalCallService = externalCallService;
     }
 
     @Override
@@ -66,6 +75,12 @@ public class UserFacadeImpl implements UserFacade {
         szsUser.setPassword(null);
 
         return szsUser;
+    }
+
+    @Override
+    public ScrapResponse getScrap(UserDto userDto) throws Exception {
+        var ret =  externalCallService.scrap(userDto);
+        return ret;
     }
 
 

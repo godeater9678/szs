@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class SzsException extends Exception {
     HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-    SzsException(String message){
+    public SzsException(String message){
         super(message);
     }
 }
