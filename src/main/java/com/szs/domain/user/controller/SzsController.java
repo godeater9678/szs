@@ -4,6 +4,7 @@ import com.szs.domain.user.dto.SzsResponse;
 import com.szs.domain.user.dto.UserDto;
 import com.szs.domain.user.entity.SzsUser;
 import com.szs.domain.user.facade.UserFacade;
+import com.szs.domain.user.helper.JwtUtil;
 import com.szs.domain.user.helper.UserMapper;
 import com.szs.domain.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,13 @@ public class SzsController {
         // 입력된 파라미터로 User 엔티티 생성
         String token = userFacade.login(userId, password);
         return new SzsResponse<>(HttpStatus.ACCEPTED, token, null);
+    }
+
+    @GetMapping("/me")
+    public SzsResponse<UserDto> me(@RequestHeader("Authorization") String authorizationHeader) throws Exception {
+        // "Bearer "를 제거하여 실제 토큰 문자열만 추출
+        String tokenString = authorizationHeader.replace("Bearer ", "").replace("bearer ", "");
+        UserDto userDto = userMapper.convertToDto( userFacade.getUserByToken(tokenString) );
+        return new SzsResponse<>(HttpStatus.ACCEPTED, userDto, null);
     }
 }

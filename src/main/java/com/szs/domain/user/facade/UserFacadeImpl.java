@@ -3,7 +3,6 @@ package com.szs.domain.user.facade;
 import com.szs.domain.user.entity.SzsUser;
 import com.szs.domain.user.exception.SzsBadRequestException;
 import com.szs.domain.user.helper.JwtUtil;
-import com.szs.domain.user.helper.ShaEnc;
 import com.szs.domain.user.service.UserAllowedService;
 import com.szs.domain.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 
 
 @Service
@@ -62,4 +58,15 @@ public class UserFacadeImpl implements UserFacade {
 
         return jwtUtil.generateToken(userId);
     }
+
+    @Override
+    public SzsUser getUserByToken(String token) throws Exception {
+        String userId = jwtUtil.extractUsername(token);
+        var szsUser = userService.getUserByUserId(userId);
+        szsUser.setPassword(null);
+
+        return szsUser;
+    }
+
+
 }

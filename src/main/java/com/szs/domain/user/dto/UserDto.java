@@ -1,6 +1,7 @@
 package com.szs.domain.user.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 import lombok.Getter;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -12,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
+@Data
 @Schema(description = "회원 DTO")
 public class UserDto {
 

@@ -21,6 +21,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<SzsResponse> handleGlobalException(Exception ex, WebRequest request) {
         // 예외 처리 로직을 여기에 작성합니다.
         SzsResponse<Object> szsResponse = new SzsResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        System.out.println(ex.getStackTrace());
         return new ResponseEntity<>(szsResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
