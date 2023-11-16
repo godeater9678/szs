@@ -46,7 +46,7 @@ public class SwaggerConfig {/*http://localhost:8080/swagger-ui/index.html*/
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("JWT", "jwt", "header");
+        return new ApiKey("JWT", "Authorization", "header");
     }
 
     private SecurityContext securityContext() {
